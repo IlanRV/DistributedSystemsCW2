@@ -119,6 +119,7 @@ public class CreateDB {
 
       statement.executeUpdate();
 
+
     }
 
     statement.close();
@@ -144,7 +145,12 @@ public class CreateDB {
       database = getConnection();
       System.out.println("Success - connected to the DB.");
       createTable(database);
+      long startTime = System.currentTimeMillis();
       addData(input, database);
+      long endTime = System.currentTimeMillis();
+      long totalTime = endTime - startTime;
+      System.out.println(totalTime + "ms");
+
       System.out.println("Success - created table.");
     }
     catch (Exception error) {
