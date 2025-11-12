@@ -5,19 +5,7 @@ import java.sql.*;
 import java.util.*;
 
 
-/**
- * Example of how to create and populate a table using JDBC.
- *
- * <p>The program demonstrates</p>
- * <ul>
- *   <li>Use of properties to hold JDBC driver and database details</li>
- *   <li>Use of SQL commands DROP, CREATE and INSERT</li>
- *   <li>Use of prepared statements to insert data efficiently</li>
- * </ul>
- *
- * @author Karim Djemame and Nick Efford
- * @version 2.2 [2024-10-02]
- */
+
 
 public class CreateDB {
 
@@ -65,7 +53,7 @@ public class CreateDB {
     // Drop existing table, if present
 
     try {
-      statement.executeUpdate("DROP TABLE students");
+      statement.executeUpdate("DROP TABLE sensordata");
     }
     catch (SQLException error) {
       // Catch and ignore SQLException, as this merely indicates
@@ -74,10 +62,13 @@ public class CreateDB {
 
     // Create a fresh table
 
-    statement.executeUpdate("CREATE TABLE students ("
-                          + "user_id CHAR(8) NOT NULL PRIMARY KEY,"
-                          + "surname VARCHAR(30) NOT NULL,"
-                          + "forename VARCHAR(20) NOT NULL)");
+    statement.executeUpdate("CREATE TABLE sensordata ("
+                          + "sensorID INT NOT NULL PRIMARY KEY,"
+                          + "temp INT NOT NULL,"
+                          + "wind INT NOT NULL,"
+                          + "humidity INT NOT NULL,"
+                          + "co2 INT NOT NULL)"
+                          );
 
     statement.close();
   }
@@ -98,27 +89,34 @@ public class CreateDB {
     // Prepare statement used to insert data
 
     PreparedStatement statement =
-     database.prepareStatement("INSERT INTO students VALUES(?,?,?)");
+     database.prepareStatement("INSERT INTO sensordata VALUES(?,?,?,?,?)");
 
     // Loop over input data, inserting it into table...
  
     while (true) {
 
-      // Obtain user ID, surname and forename from input file
+      // Obtain sensor ID, Temperature, Wind R.Humidity and CO2 from input file
 
       String line = in.readLine();
       if (line == null)
         break;
-      StringTokenizer parser = new StringTokenizer(line,",");
-      String userID = parser.nextToken();
-      String surname = parser.nextToken();
-      String forename = parser.nextToken();
+
+      String[] parser = line.split(",");
+
+      int sensorID = Integer.parseInt(parser[0]);
+      int temp = Integer.parseInt(parser[1]);
+      int wind = Integer.parseInt(parser[2]);
+      int humidity = Integer.parseInt(parser[3]);
+      int co2 = Integer.parseInt(parser[4]);
 
       // Insert data into table
 
-      statement.setString(1, userID);
-      statement.setString(2, surname);
-      statement.setString(3, forename);
+      statement.setInt(1, sensorID);
+      statement.setInt(2, temp);
+      statement.setInt(3, wind);
+      statement.setInt(4, humidity);
+      statement.setInt(5, co2);
+
       statement.executeUpdate();
 
     }
