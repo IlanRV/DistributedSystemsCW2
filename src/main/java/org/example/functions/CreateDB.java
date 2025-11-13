@@ -77,97 +77,107 @@ public class CreateDB {
   /**
    * Adds data to the table.
    *
-   * @param in source of data
-   * @param database connection to database
+//   * @param in source of data
+//   * @param database connection to database
    * @throws IOException if there is a problem reading from the file
    * @throws SQLException if insertion fails for any reason
    */
 
-  public static void addData(BufferedReader in, Connection database)
-   throws IOException, SQLException
-  {
-    // Prepare statement used to insert data
+//  public static void addData(BufferedReader in, Connection database)
+//   throws IOException, SQLException
+//  {
+//    // Prepare statement used to insert data
+//
+//    PreparedStatement statement =
+//     database.prepareStatement("INSERT INTO sensordata VALUES(?,?,?,?,?)");
+//
+//    // Loop over input data, inserting it into table...
+//
+//    while (true) {
+//
+//      // Obtain sensor ID, Temperature, Wind R.Humidity and CO2 from input file
+//
+//      String line = in.readLine();
+//      if (line == null)
+//        break;
+//
+//      String[] parser = line.split(",");
+//
+//      int sensorID = Integer.parseInt(parser[0]);
+//      int temp = Integer.parseInt(parser[1]);
+//      int wind = Integer.parseInt(parser[2]);
+//      int humidity = Integer.parseInt(parser[3]);
+//      int co2 = Integer.parseInt(parser[4]);
+//
+//      // Insert data into table
+//
+//      statement.setInt(1, sensorID);
+//      statement.setInt(2, temp);
+//      statement.setInt(3, wind);
+//      statement.setInt(4, humidity);
+//      statement.setInt(5, co2);
+//
+//      statement.executeUpdate();
+//
+//
+//    }
+//
+//    statement.close();
+//    in.close();
+//  }
+//
+//
+//  /**
+//   * Main program.
+//   */
 
-    PreparedStatement statement =
-     database.prepareStatement("INSERT INTO sensordata VALUES(?,?,?,?,?)");
+//  public static void main(String[] argv)
+//  {
+//    if (argv.length == 0) {
+//      System.err.println("usage: java CreateDB <inputFile>");
+//      System.exit(1);
+//    }
+//
+//    Connection database = null;
+//
+//    try {
+//      BufferedReader input = new BufferedReader(new FileReader(argv[0]));
+//      database = getConnection();
+//      System.out.println("Success - connected to the DB.");
+//      createTable(database);
+//      long startTime = System.currentTimeMillis();
+//      addData(input, database);
+//      long endTime = System.currentTimeMillis();
+//      long totalTime = endTime - startTime;
+//      System.out.println(totalTime + "ms");
+//
+//      System.out.println("Success - created table.");
+//    }
+//    catch (Exception error) {
+//      error.printStackTrace();
+//    }
+//    finally {
+//
+//      // This will always execute, even if an exception has
+//      // been thrown elsewhere in the code - so this is
+//      // the ideal place to close the connection to the DB...
+//
+//      if (database != null) {
+//        try {
+//          database.close();
+//        }
+//        catch (Exception error) {}
+//      }
+//    }
+//  }
 
-    // Loop over input data, inserting it into table...
- 
-    while (true) {
-
-      // Obtain sensor ID, Temperature, Wind R.Humidity and CO2 from input file
-
-      String line = in.readLine();
-      if (line == null)
-        break;
-
-      String[] parser = line.split(",");
-
-      int sensorID = Integer.parseInt(parser[0]);
-      int temp = Integer.parseInt(parser[1]);
-      int wind = Integer.parseInt(parser[2]);
-      int humidity = Integer.parseInt(parser[3]);
-      int co2 = Integer.parseInt(parser[4]);
-
-      // Insert data into table
-
-      statement.setInt(1, sensorID);
-      statement.setInt(2, temp);
-      statement.setInt(3, wind);
-      statement.setInt(4, humidity);
-      statement.setInt(5, co2);
-
-      statement.executeUpdate();
-
-
-    }
-
-    statement.close();
-    in.close();
-  }
-
-
-  /**
-   * Main program.
-   */
-
-  public static void main(String[] argv)
-  {
-    if (argv.length == 0) {
-      System.err.println("usage: java CreateDB <inputFile>");
-      System.exit(1);
-    }
-
-    Connection database = null;
- 
-    try {
-      BufferedReader input = new BufferedReader(new FileReader(argv[0]));
-      database = getConnection();
-      System.out.println("Success - connected to the DB.");
-      createTable(database);
-      long startTime = System.currentTimeMillis();
-      addData(input, database);
-      long endTime = System.currentTimeMillis();
-      long totalTime = endTime - startTime;
-      System.out.println(totalTime + "ms");
-
-      System.out.println("Success - created table.");
-    }
-    catch (Exception error) {
-      error.printStackTrace();
-    }
-    finally {
-
-      // This will always execute, even if an exception has
-      // been thrown elsewhere in the code - so this is
-      // the ideal place to close the connection to the DB...
-
-      if (database != null) {
-        try {
-          database.close();
-        }
-        catch (Exception error) {}
-      }
+  public static void main(String[] args) {
+    try (Connection db = getConnection()) {
+      System.out.println("Connected.");
+      createTable(db);
+      System.out.println("Table created.");
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
