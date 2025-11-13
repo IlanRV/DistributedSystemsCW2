@@ -17,11 +17,19 @@
         <functionAppName>azure-function-examples-1762878634732</functionAppName>
     </properties>
 
+
     <dependencies>
         <dependency>
             <groupId>com.microsoft.azure.functions</groupId>
             <artifactId>azure-functions-java-library</artifactId>
             <version>${azure.functions.java.library.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.8.0.jre11</version>
         </dependency>
 
         <!-- Test -->
@@ -47,8 +55,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>15</source>
+                    <target>15</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>

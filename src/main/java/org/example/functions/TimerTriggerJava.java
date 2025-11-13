@@ -12,21 +12,20 @@ public class TimerTriggerJava {
 
     @FunctionName("GenerateSensorData")
     public void run(
-        @TimerTrigger(name = "timerInfo", schedule = "@once") String timerInfo,
+        @TimerTrigger(name = "timerInfo", schedule = "0 * * * * *") String timerInfo,
         final ExecutionContext context
     ) {
         context.getLogger().info("GenerateSensorData triggered at: " + LocalDateTime.now());
 
         try (Connection connection = DBConnection.getConnection()) {
 
-            // Always recreate table on this single-run trigger
             DBConnection.createTable(connection);
             context.getLogger().info("sensordata table recreated.");
 
             long start = System.currentTimeMillis();
 
             // --- Generate all batches ---
-            List<List<Map<String, Integer>>> batches = generateBatches(20);
+            List<List<Map<String, Integer>>> batches = generateBatches(5);
 
             // --- Insert all data into DB ---
             String sql = "INSERT INTO sensordata (sensorID, temp, wind, humidity, co2) VALUES (?, ?, ?, ?, ?)";

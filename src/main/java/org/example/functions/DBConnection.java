@@ -31,12 +31,7 @@ public class DBConnection
 
     public static void createTable(Connection database) throws SQLException
     {
-        // Create a Statement object with which we can execute SQL commands
-
         Statement statement = database.createStatement();
-
-        // Drop existing table, if present
-
         try
         {
             statement.executeUpdate("DROP TABLE sensordata");
@@ -46,7 +41,6 @@ public class DBConnection
             // Catch and ignore SQLException, as this merely indicates
             // that the table didn't exist in the first place!
         }
-
 
         statement.executeUpdate("CREATE TABLE sensordata ("
                 + "sensorID INT NOT NULL,"
@@ -59,4 +53,3 @@ public class DBConnection
         statement.close();
     }
 }
-
