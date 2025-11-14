@@ -12,7 +12,7 @@ public class TimerTriggerJava {
 
     @FunctionName("GenerateSensorData")
     public void run(
-        @TimerTrigger(name = "timerInfo", schedule = "0 * * * * *") String timerInfo,
+        @TimerTrigger(name = "timerInfo", schedule = "*/10 * * * * *") String timerInfo,
         final ExecutionContext context
     ) {
         context.getLogger().info("GenerateSensorData triggered at: " + LocalDateTime.now());
@@ -24,10 +24,8 @@ public class TimerTriggerJava {
 
             long start = System.currentTimeMillis();
 
-            // --- Generate all batches ---
-            List<List<Map<String, Integer>>> batches = generateBatches(5);
+            List<List<Map<String, Integer>>> batches = generateBatches(100);
 
-            // --- Insert all data into DB ---
             String sql = "INSERT INTO sensordata (sensorID, temp, wind, humidity, co2) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -59,7 +57,7 @@ public class TimerTriggerJava {
 
             List<Map<String, Integer>> batch = new ArrayList<>();
 
-            // 20 sensors per batch
+
             for (int sensorID = 1; sensorID <= 20; sensorID++) {
 
                 Map<String, Integer> sensor = new HashMap<>();
