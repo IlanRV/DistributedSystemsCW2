@@ -41,7 +41,7 @@ public class CreateDB {
   }
 
   public static void addData(Connection database) throws SQLException {
-    List<List<Map<String, Integer>>> batches = generateBatches(100);
+    List<List<Map<String, Integer>>> batches = generateBatches(50);
 
     String sql = "INSERT INTO sensordata (sensorID, temp, wind, humidity, co2) " +
                  "VALUES (?, ?, ?, ?, ?)";

@@ -21,9 +21,6 @@ public class TimerTriggerJava {
 
             DBConnection.createTable(connection);
             context.getLogger().info("sensordata table recreated.");
-
-            long start = System.currentTimeMillis();
-
             List<List<Map<String, Integer>>> batches = generateBatches(100);
 
             String sql = "INSERT INTO sensordata (sensorID, temp, wind, humidity, co2) VALUES (?, ?, ?, ?, ?)";
@@ -39,10 +36,6 @@ public class TimerTriggerJava {
                     ps.executeUpdate();
                 }
             }
-
-            long end = System.currentTimeMillis();
-            context.getLogger().info("Inserted " + batches.size());
-            context.getLogger().info("Execution time: " + (end - start) + "ms");
 
         } catch (Exception e) {
             context.getLogger().severe("DB error: " + e.getMessage());

@@ -50,7 +50,6 @@ public class HttpTriggerJava {
             "GROUP BY sensorID " +
             "ORDER BY sensorID";
 
-        long tStart = System.currentTimeMillis();
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -74,12 +73,6 @@ public class HttpTriggerJava {
                     sensorID, minTemp, maxTemp, minWind, maxWind, minHum, maxHum, minCo2, maxCo2
                 ));
             }
-
-            long tEnd = System.currentTimeMillis();
-            long durationMs = tEnd - tStart;
-            context.getLogger().info("----->Statistics function duration: " + durationMs + " ms<------");
-
-
 
             return request.createResponseBuilder(HttpStatus.OK)
                     .body(sb.toString())
