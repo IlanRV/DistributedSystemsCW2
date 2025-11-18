@@ -38,8 +38,7 @@ public class DBConnection
             System.out.println("table dropped");
         } catch (SQLException error)
         {
-            // Catch and ignore SQLException, as this merely indicates
-            // that the table didn't exist in the first place!
+            // Catch and ignore SQLException
         }
 
         statement.executeUpdate("CREATE TABLE sensordata ("

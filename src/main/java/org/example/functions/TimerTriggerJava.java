@@ -21,7 +21,7 @@ public class TimerTriggerJava {
 
             DBConnection.createTable(connection);
             context.getLogger().info("sensordata table recreated.");
-            List<List<Map<String, Integer>>> batches = generateBatches(100);
+            List<List<Map<String, Integer>>> batches = generateBatches(10);
 
             String sql = "INSERT INTO sensordata (sensorID, temp, wind, humidity, co2) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(sql);
